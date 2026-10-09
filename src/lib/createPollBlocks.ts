@@ -1,4 +1,4 @@
-import { BlockBuilder, BlockElementType } from '@rocket.chat/apps-engine/definition/uikit';
+import { BlockBuilder, BlockElementType, ButtonStyle } from '@rocket.chat/apps-engine/definition/uikit';
 
 import { IPoll } from '../definition';
 import { buildVoteGraph } from './buildVoteGraph';
@@ -17,15 +17,6 @@ function formatCloseTime(closesAt: number): string {
 export function createPollBlocks(block: BlockBuilder, question: string, options: Array<any>, poll: IPoll, showNames: boolean) {
     block.addSectionBlock({
         text: block.newPlainTextObject(question),
-        ...!poll.finished && {
-            accessory: {
-                type: BlockElementType.OVERFLOW_MENU,
-                actionId: 'finish',
-                options: [
-                    { text: plainText('poll_finish'), value: 'finish' },
-                ],
-            },
-        },
     });
 
     if (poll.finished) {
@@ -87,4 +78,18 @@ export function createPollBlocks(block: BlockBuilder, question: string, options:
             ],
         });
     });
+
+    if (!poll.finished) {
+        block.addActionsBlock({
+            elements: [
+                {
+                    type: BlockElementType.BUTTON,
+                    actionId: 'finish',
+                    text: plainText('poll_finish'),
+                    value: 'finish',
+                    style: ButtonStyle.DANGER,
+                } as any,
+            ],
+        });
+    }
 }

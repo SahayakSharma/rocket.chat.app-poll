@@ -124,7 +124,7 @@ export class PollApp extends App implements IUIKitInteractionHandler {
                     if (room) {
                             errorMessage.setRoom(room);
                     }
-                    modify
+                    await modify
                          .getNotifier()
                          .notifyUser(
                              context.getInteractionData().user,
